@@ -3,10 +3,12 @@ package com.OverCaste.plugin.RedProtect;
 import static org.bukkit.ChatColor.RED;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 
 public class RPEntityListener implements Listener {
 	RedProtect plugin;
@@ -34,7 +36,7 @@ public class RPEntityListener implements Listener {
 		}
 	}*/
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler
 	public void onEntityTarget(EntityTargetEvent e) {
 		Entity target = e.getTarget();
 		if(target == null) return;
@@ -46,7 +48,7 @@ public class RPEntityListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		Entity e = event.getEntity();
 		if(e == null) return;
@@ -62,7 +64,7 @@ public class RPEntityListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
     	if(event.isCancelled()) return;
     	if(event instanceof EntityDamageByEntityEvent){
@@ -82,12 +84,6 @@ public class RPEntityListener implements Listener {
 	    	}
 	        Region r1 = RedProtect.rm.getRegion(e1.getLocation());
 	        Region r2 = RedProtect.rm.getRegion(e2.getLocation());
-	    	if(e1.getType() == EntityType.ITEM_FRAME || e1.getType() == EntityType.PAINTING) {
-	    		if(!r1.canBuild((Player)e2)) {
-	    			((Player)e2).sendMessage(RED + "You can't build here!");
-	    			event.setCancelled(true);
-	    		}
-	    	}
 	        if(e1 instanceof Player) { //e1 is a player
 	        	//Player p1 = (Player)e1;
 	        	if(e2 instanceof Player){ //e1 is player, e2 is player (pvp)
@@ -134,4 +130,18 @@ public class RPEntityListener implements Listener {
 			}
     	}
     }
+	
+	@EventHandler
+	public void onHangingDamaged(HangingBreakByEntityEvent event) {
+		Entity remover = event.getRemover();
+		if(remover instanceof Player) {
+			Player player = (Player)remover;
+			Location loc = event.getEntity().getLocation();
+			Region r = RedProtect.rm.getRegion(loc);
+			if(r != null && !r.canBuild(player)) {
+				player.sendMessage(RED + "You can't build here!");
+	    		event.setCancelled(true);
+			}
+		}
+	}
 }

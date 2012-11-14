@@ -3,12 +3,10 @@ package com.OverCaste.plugin.RedProtect;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+import org.bukkit.entity.*;
+import org.bukkit.event.*;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.*;
 
 
 public class RPPlayerListener implements Listener {
@@ -17,37 +15,37 @@ public class RPPlayerListener implements Listener {
 		this.plugin = plugin;
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerInteract(PlayerInteractEvent e){
-		Player p = e.getPlayer();
-		Block b = e.getClickedBlock();
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEvent event){
+		Player p = event.getPlayer();
+		Block b = event.getClickedBlock();
 		if (b == null) return;
 		Region r = null;
 		Material itemInHand = p.getItemInHand().getType();
 		
 		if(p.getItemInHand().getTypeId() == RedProtect.adminWandID) {
-			if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+			if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 				if(p.hasPermission("redprotect.magicwand")) {
 					RedProtect.secondLocationSelections.put(p, b.getLocation());
 					p.sendMessage(ChatColor.AQUA + "Set the second magic wand location to (" + ChatColor.GOLD + b.getLocation().getBlockX() + ChatColor.AQUA + ", " + ChatColor.GOLD + b.getLocation().getBlockY() + ChatColor.AQUA + ", " + ChatColor.GOLD + b.getLocation().getBlockZ() + ChatColor.AQUA + ").");
-					e.setCancelled(true);
+					event.setCancelled(true);
 					return;
 				}
 			}
-			else if(e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+			else if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 				if(p.hasPermission("redprotect.magicwand")) {
 					RedProtect.firstLocationSelections.put(p, b.getLocation());
 					p.sendMessage(ChatColor.AQUA + "Set the first magic wand location to (" + ChatColor.GOLD + b.getLocation().getBlockX() + ChatColor.AQUA + ", " + ChatColor.GOLD + b.getLocation().getBlockY() + ChatColor.AQUA + ", " + ChatColor.GOLD + b.getLocation().getBlockZ() + ChatColor.AQUA + ").");
-					e.setCancelled(true);
+					event.setCancelled(true);
 					return;
 				}
 			}
 		}
 		if(p.getItemInHand().getTypeId() == RedProtect.infoWandID) {
-			if(e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+			if(event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
 				r = RedProtect.rm.getRegion(p.getLocation());
 			}
-			else if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+			else if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 				r = RedProtect.rm.getRegion(b.getLocation());
 			}
 			if(p.hasPermission("redprotect.infowand")) {
@@ -58,10 +56,11 @@ public class RPPlayerListener implements Listener {
 					p.sendMessage(r.info());
 					p.sendMessage(r.getFlagInfo());
 				}
-				e.setCancelled(true);
+				event.setCancelled(true);
 				return;
 			}
 		}
+		
 		
 		if (b.getType().equals(Material.CHEST)){
 			r = RedProtect.rm.getRegion(b.getLocation());
@@ -69,7 +68,7 @@ public class RPPlayerListener implements Listener {
 			if(!r.canChest(p)){
 				if(!RedProtect.ph.hasPerm(p, "redprotect.bypass")){
 					p.sendMessage(ChatColor.RED + "You can't open this chest!");
-					e.setCancelled(true);
+					event.setCancelled(true);
 				}else{
 					p.sendMessage(ChatColor.YELLOW + "Opened locked chest in " + r.getCreator() +  "'s region.");
 				}
@@ -82,7 +81,7 @@ public class RPPlayerListener implements Listener {
 			if(!r.canChest(p)){
 				if(!RedProtect.ph.hasPerm(p, "redprotect.bypass")){
 					p.sendMessage(ChatColor.RED + "You can't open this dispenser!");
-					e.setCancelled(true);
+					event.setCancelled(true);
 				}else{
 					p.sendMessage(ChatColor.YELLOW + "Opened locked dispenser in " + r.getCreator() +  "'s region.");
 				}
@@ -95,7 +94,7 @@ public class RPPlayerListener implements Listener {
 			if(!r.canChest(p)){
 				if(!RedProtect.ph.hasPerm(p, "redprotect.bypass")){
 					p.sendMessage(ChatColor.RED + "You can't open this furnace!");
-					e.setCancelled(true);
+					event.setCancelled(true);
 				}else{
 					p.sendMessage(ChatColor.YELLOW + "Opened locked furnace in " + r.getCreator() +  "'s region.");
 				}
@@ -108,7 +107,7 @@ public class RPPlayerListener implements Listener {
 			if(!r.canLever(p)){
 				if(!RedProtect.ph.hasPerm(p, "redprotect.bypass")){
 					p.sendMessage(ChatColor.RED + "You can't toggle this lever!");
-					e.setCancelled(true);
+					event.setCancelled(true);
 				}else{
 					p.sendMessage(ChatColor.YELLOW + "Toggled locked lever in " + r.getCreator() +  "'s region.");
 				}
@@ -121,7 +120,7 @@ public class RPPlayerListener implements Listener {
 			if(!r.canButton(p)){
 				if(!RedProtect.ph.hasPerm(p, "redprotect.bypass")){
 					p.sendMessage(ChatColor.RED + "You can't activate this button!");
-					e.setCancelled(true);
+					event.setCancelled(true);
 				}else{
 					p.sendMessage(ChatColor.YELLOW + "Activated locked button in " + r.getCreator() +  "'s region.");
 				}
@@ -134,7 +133,7 @@ public class RPPlayerListener implements Listener {
 			if(!r.canDoor(p)){
 				if(!RedProtect.ph.hasPerm(p, "redprotect.bypass")){
 					p.sendMessage(ChatColor.RED + "You can't open this door!");
-					e.setCancelled(true);
+					event.setCancelled(true);
 				}else{
 					p.sendMessage(ChatColor.YELLOW + "Opened locked door in " + r.getCreator() +  "'s region.");
 				}
@@ -144,7 +143,20 @@ public class RPPlayerListener implements Listener {
 		if (itemInHand.equals(Material.FLINT_AND_STEEL)||itemInHand.equals(Material.WATER_BUCKET)||itemInHand.equals(Material.LAVA_BUCKET)||itemInHand.equals(Material.PAINTING)||itemInHand.equals(Material.ITEM_FRAME)){
 			if (!RedProtect.rm.canBuild(p, b, b.getWorld())){
 				p.sendMessage(ChatColor.RED + "You can't use that here!");
-				e.setCancelled(true);
+				event.setCancelled(true);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEntityEvent event) {
+		Entity e = event.getRightClicked();
+		Player p = event.getPlayer();
+		if(e instanceof ItemFrame) {
+			Region r = RedProtect.rm.getRegion(e.getLocation());
+			if(r != null && !r.canBuild(p)) {
+				p.sendMessage(ChatColor.RED + "You can't edit that item frame here!");
+				event.setCancelled(true);
 			}
 		}
 	}
