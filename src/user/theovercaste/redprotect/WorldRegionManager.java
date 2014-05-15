@@ -1,10 +1,12 @@
-package com.OverCaste.plugin.RedProtect;
+package user.theovercaste.redprotect;
 
 import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
+import com.OverCaste.plugin.RedProtect.Region;
 
 public interface WorldRegionManager {
 

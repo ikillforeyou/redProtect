@@ -1,7 +1,7 @@
 name: redProtect
 main: com.OverCaste.plugin.RedProtect.RedProtect
-version: 1.9.2
-author: ikillforeyou (OverCaste)
+version: 1.11
+author: ikillforeyou
 description: Allows players to define fields to protect their houses.
 softdepend: [Vault]
 commands:
