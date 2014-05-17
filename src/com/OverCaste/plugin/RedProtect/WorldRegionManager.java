@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 
 public interface WorldRegionManager {
 
-	abstract void load();
+	abstract void load( );
 
-	abstract void save();
+	abstract void save( );
 
 	abstract Region getRegion(String name);
 

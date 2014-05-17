@@ -7,10 +7,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
-public class RPWorldListener implements Listener{
-	
+public class RPWorldListener implements Listener {
+
 	RedProtect plugin;
-	
+
 	public RPWorldListener(RedProtect plugin) {
 		this.plugin = plugin;
 	}
@@ -25,7 +25,7 @@ public class RPWorldListener implements Listener{
 			ex.printStackTrace();
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onWorldUnload(WorldUnloadEvent e) {
 		World w = e.getWorld();
