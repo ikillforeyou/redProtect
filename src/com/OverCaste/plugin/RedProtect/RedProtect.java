@@ -84,8 +84,8 @@ public class RedProtect extends JavaPlugin{
 		}
 	}
 	
-	protected void setEnabled(boolean val){
-		super.setEnabled(val);
+	protected void disable() {
+		super.setEnabled(false);
 	}
 	
 	void initVars() throws Exception {

@@ -93,7 +93,7 @@ public class ConfigurationManager {
 				}
 				else{
 					logger.severe("There is a major error in your configuration, 'debug-messages' isn't an acceptable value.");
-					plugin.setEnabled(false);
+					plugin.disable();
 				}
 			}else{
 				logger.severe("Configuration option not found: debug-messages! Defaulting to false.");
@@ -121,7 +121,7 @@ public class ConfigurationManager {
 				}
 				else{
 					logger.severe("There is a major error in your configuration, 'file-type' isn't an acceptable value.");
-					plugin.setEnabled(false);
+					plugin.disable();
 				}
 			}else{
 				logger.warning("Configuration option not found: file-type! Defaulting to ymlgz.");
@@ -135,7 +135,7 @@ public class ConfigurationManager {
 				}
 				else{
 					logger.severe("There is a major error in your configuration, 'remove-blocks' isn't an acceptable value.");
-					plugin.setEnabled(false);
+					plugin.disable();
 				}
 			}
 			if((dat = (String)props.getProperty("block-id")) != null){

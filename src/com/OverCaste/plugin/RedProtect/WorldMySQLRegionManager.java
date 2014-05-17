@@ -39,7 +39,7 @@ public class WorldMySQLRegionManager implements WorldRegionManager {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
 			RedProtect.logger.severe("Couldn't find the driver for MySQL! " + driver + ".");
-			RedProtect.plugin.setEnabled(false);
+			RedProtect.plugin.disable();
 			return;
 		}
 		dbname = mysqlDatabaseName + "_" + w.getName();
